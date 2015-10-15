@@ -1,12 +1,13 @@
 % todo:
 % 1. init with LDA
-% 2. decompose G
+% 2. decompose G ( not really necessary
 % 3. fit decision boundary
 % 4. convergence check
 % 5. other magics in the paper
 
 clear all;
-load('../data/WDRef_pca_100.mat');
+data_dir = '../../../data/JointBayesian/';
+load([data_dir 'WDRef_pca_100.mat']);
 feature_dim = size(train_x,1);
 dat_num = size(train_x,2);
 sub_num = max(train_lbl); % number of subjects (assume id number increases consectively
