@@ -25,9 +25,8 @@ function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, fe
         % between class covariance matrix
         S_mu = S_mu + n_k*(m_k-data_mean)*(m_k-data_mean)'; % prml eq 4.46
     end
-    S_mu = S_mu/dat_num; % have to devide dat_num to stay in the same magnitude as the EM approach
-    S_eps = S_eps/dat_num;
-    
+    S_mu = S_mu/sub_num;
+    S_eps = S_eps/
 %     % init to be positive definite
 %     S_mu = eye(feature_dim); % identity matrix are positive definite
 %     S_eps = eye(feature_dim);
@@ -62,8 +61,8 @@ function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, fe
         S_eps = cov(eps');
         % check for convergence
         % todo: check likelihood
-        fprintf('\n%f\t%f\n',norm(S_eps - old_S_eps)/norm(S_eps),norm(S_mu - old_S_mu)/norm(S_mu));
-        if norm(S_eps - old_S_eps)/norm(S_eps)<thres && norm(S_mu - old_S_mu)/norm(S_mu)<thres
+        fprintf('\n%f\n',norm(S_eps - old_S_eps)/norm(S_eps));
+        if norm(S_eps - old_S_eps)/norm(S_eps)<thres        
             break;
         end
     end
