@@ -28,14 +28,14 @@ test_data_num = size(test_pairs,1);
 for i=1:test_data_num
         test_r(i) = computeR(A,G,test_x(:,test_pairs(i,1)),test_x(:,test_pairs(i,2)));
 end
-% accuracy ( 100d: 0.8047 thres:-3.5
+% manual threshold ( 100d: 0.8047 thres:-3.5
 thres = -3.5;
 acc = sum(test_lbl==(test_r>thres))/test_data_num;
 
-% % logistic regression not so good
-% b = mnrfit(test_r,test_lbl+1);
-% pred = 1-round(logsig([test_r ones(test_data_num,1)]*b));
-% acc = sum(pred==test_lbl)/test_data_num;
+% logistic regression (100d: 0.8073
+b = mnrfit(test_r,test_lbl+1);
+pred = 1-round(logsig([ones(test_data_num,1) test_r]*b));
+acc = sum(pred==test_lbl)/test_data_num;
 
 % probabilities too close to zero
 % mvnpdf([test_x(:,test_pairs(3000,1));test_x(:,test_pairs(300,2))],zeros(2*dim_feature,1),Sig_i)
