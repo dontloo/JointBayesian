@@ -1,3 +1,10 @@
+% estimate within and between covariances using EM
+% 1. init with estimated within and between (theta
+% 2. MLE p(x|theta) using EM till converge
+% if epoch is set to 0, will return then estimated between and within covs
+% directly.
+% initializations of between and within covs have to be positive definite,
+% in order to satisfy the properties of a cov matrix.
 function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, feature_dim, dat_num, sub_num)
     x_cell = cell(sub_num,1);
     buff_size = 1;% maximum number of pictures per person
@@ -5,7 +12,7 @@ function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, fe
         x_cell{i} = train_x(:,train_lbl==i);
         buff_size = max([buff_size size(x_cell{i},2)]);
     end
-    % todo: init with LDA
+    % init with matrices used in LDA
     data_mean = mean(train_x,2); % should be zero if already subtracted
     S_mu = zeros(feature_dim); % identity matrix are positive definite
     S_eps = zeros(feature_dim);
