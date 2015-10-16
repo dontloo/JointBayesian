@@ -17,24 +17,29 @@ function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, fe
     data_mean = mean(train_x,2); % should be zero if already subtracted
     S_mu = zeros(feature_dim); % identity matrix are positive definite
     S_eps = zeros(feature_dim);
+    single_num = 0; % number of subjects with only one sample
     for i=1:sub_num
         n_k = size(x_cell{i},2);
         m_k = mean(x_cell{i},2);
         
         % within class covariance matrix
-        tmp = bsxfun(@minus,x_cell{i},m_k); % tmp = x-m (prml eq 4.43
-        S_eps = S_eps + tmp*tmp'; % prml eq 4.43
-%         % result is identical with the matrix ops above
-%         S_k = zeros(feature_dim);
-%         for k=1:n_k
-%             S_k = S_k + (x_cell{i}(:,k)-m_k)*(x_cell{i}(:,k)-m_k)';
-%         end
-
+        if n_k>1
+            tmp = bsxfun(@minus,x_cell{i},m_k); % tmp = x-m (prml eq 4.43
+            S_eps = S_eps + tmp*tmp'; % prml eq 4.43
+%             % result is identical with the matrix ops above
+%             S_k = zeros(feature_dim);
+%             for k=1:n_k
+%                 S_k = S_k + (x_cell{i}(:,k)-m_k)*(x_cell{i}(:,k)-m_k)';
+%             end
+        else
+            single_num = single_num + 1;
+        end
+        
         % between class covariance matrix
         S_mu = S_mu + n_k*(m_k-data_mean)*(m_k-data_mean)'; % prml eq 4.46
     end
     S_mu = S_mu/dat_num; % have to devide dat_num to stay in the same magnitude as the EM approach
-    S_eps = S_eps/dat_num;
+    S_eps = S_eps/(dat_num-single_num);
     
 %     % init to be positive definite
 %     S_mu = eye(feature_dim); % identity matrix are positive definite
