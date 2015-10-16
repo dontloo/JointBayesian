@@ -4,6 +4,7 @@
 % 1. EM init with I:    0.8073      na         0.8910       0.8937
 % 2. LDA matrices:      0.8077      0.8097     0.8788       0.8800
 % 3. LDA + EM:          0.8073      0.8117     0.8930       0.8933
+% however according to the paper it should be around 0.8938~0.8940
 
 clear all;
 data_dir = '../../../data/JointBayesian/';
