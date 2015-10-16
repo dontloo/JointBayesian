@@ -1,5 +1,4 @@
-% todo:
-% 2. decompose G (not really necessary
+% todo: decompose G (not really necessary
 
 % results:              100d_lr     100d_mx    2000d_lr     2000d_mx
 % 1. EM init with I:    0.8073      na         0.8910       0.8937
@@ -14,7 +13,7 @@ dat_num = size(train_x,2);
 sub_num = max(train_lbl); % number of subjects (assume id number increases consectively
 
 % EM
-epoch = 100;
+epoch = 200;
 thres = 1e-6; % convergence threshold
 [A,G,S_mu,S_eps] = jointBayesianEM(train_x,train_lbl,epoch,thres,feature_dim,dat_num,sub_num);
 Sig_i = [S_mu+S_eps S_mu; S_mu S_mu+S_eps];

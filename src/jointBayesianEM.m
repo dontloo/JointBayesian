@@ -2,7 +2,8 @@
 % 1. init with estimated within and between (theta
 % 2. MLE p(x|theta) using EM till converge
 % if epoch is set to 0, will return then estimated between and within covs
-% directly.
+% directly. if thre is set to 0, EM will terminate only when enough number
+% of epoches have been excuted.
 % initializations of between and within covs have to be positive definite,
 % in order to satisfy the properties of a cov matrix.
 function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, feature_dim, dat_num, sub_num)
