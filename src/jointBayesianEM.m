@@ -56,11 +56,11 @@ function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, fe
         end
 
         % M step 
-        eps_ctr = 1;
+        eps_ctr = 0;
         for i = 1:sub_num
             m = size(x_cell{i},2);
             mu(:,i) = S_mu_FmG{m}*sum(x_cell{i},2); % eq 7
-            eps(:,eps_ctr:eps_ctr+m-1) = bsxfun(@plus,x_cell{i},S_eps_G{m}*sum(x_cell{i},2)); % eq 8
+            eps(:,eps_ctr+1:eps_ctr+m) = bsxfun(@plus,x_cell{i},S_eps_G{m}*sum(x_cell{i},2)); % eq 8
             eps_ctr = eps_ctr + m;
         end
         old_S_mu = S_mu;

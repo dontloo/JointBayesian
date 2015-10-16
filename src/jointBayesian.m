@@ -1,10 +1,10 @@
 % todo:
 % 2. decompose G (not really necessary
 
-% results:              100d_lr     100d_mx    2000d_lr
-% 1. EM init with I:    0.8073      na         0.8910
-% 2. LDA matrices:      0.8077      0.8097     0.8788
-% 3. LDA + EM:          0.8073      0.8117     0.8930
+% results:              100d_lr     100d_mx    2000d_lr     2000d_mx
+% 1. EM init with I:    0.8073      na         0.8910       0.8937
+% 2. LDA matrices:      0.8077      0.8097     0.8788       0.8800
+% 3. LDA + EM:          0.8073      0.8117     0.8930       0.8933
 
 clear all;
 data_dir = '../../../data/JointBayesian/';
@@ -14,7 +14,7 @@ dat_num = size(train_x,2);
 sub_num = max(train_lbl); % number of subjects (assume id number increases consectively
 
 % EM
-epoch = 0;
+epoch = 100;
 thres = 1e-6; % convergence threshold
 [A,G,S_mu,S_eps] = jointBayesianEM(train_x,train_lbl,epoch,thres,feature_dim,dat_num,sub_num);
 Sig_i = [S_mu+S_eps S_mu; S_mu S_mu+S_eps];
