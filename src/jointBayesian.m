@@ -14,7 +14,7 @@ dat_num = size(train_x,2);
 sub_num = max(train_lbl); % number of subjects (assume id number increases consectively
 
 % EM
-epoch = 100;
+epoch = 10;
 thres = 0; % convergence threshold
 [A,G,S_mu,S_eps] = jointBayesianEM(train_x,train_lbl,epoch,thres,feature_dim,dat_num,sub_num);
 Sig_i = [S_mu+S_eps S_mu; S_mu S_mu+S_eps];

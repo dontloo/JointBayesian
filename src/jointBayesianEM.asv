@@ -8,12 +8,12 @@
 % in order to satisfy the properties of a cov matrix.
 function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, feature_dim, dat_num, sub_num)
     x_cell = cell(sub_num,1);
-    buff_size = 1;% maximum number of samples (pictures) per person
+    buff_size = 1;% maximum number of pictures per person
     for i=1:sub_num
         x_cell{i} = train_x(:,train_lbl==i);
         buff_size = max([buff_size size(x_cell{i},2)]);
     end
-    num_buff = zeros(buff_size,1); % num_buff(m)==1 means there's at least one subject with m samples
+    num_buff = zeros(buff_size,1); % num_buff(m)==1 means we need to 
     for i=1:sub_num
         num_buff(size(x_cell{i},2))=1;
     end
