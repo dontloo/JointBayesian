@@ -26,6 +26,7 @@ function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, fe
     for i=1:sub_num
         n_k = size(x_cell{i},2);
         m_k = mean(x_cell{i},2);        
+        
         % within class covariance matrix
         if n_k>1
             tmp = bsxfun(@minus,x_cell{i},m_k); % tmp = x-m (prml eq 4.43
