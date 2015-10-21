@@ -4,8 +4,11 @@
 % if epoch is set to 0, will return then estimated between and within covs
 % directly. if thre is set to 0, EM will terminate only when enough number
 % of epoches have been excuted.
-% initializations of between and within covs have to be positive definite,
+% initializations of between and within covs have to be positive semidefinite,
 % in order to satisfy the properties of a cov matrix.
+% in order to randomly initialize a positve semidefinite matrix,
+% we can first randomly initialize a matrix, then compute its convariance,
+% because covariance matrices are always positive semi-definite.
 function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, feature_dim, dat_num, sub_num)
     x_cell = cell(sub_num,1);
     buff_size = 1;% maximum number of samples (pictures) per person
