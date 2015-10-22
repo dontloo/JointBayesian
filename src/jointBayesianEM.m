@@ -9,26 +9,19 @@
 % in order to randomly initialize a positve semidefinite matrix,
 % we can first randomly initialize a matrix, then compute its convariance,
 % because covariance matrices are always positive semi-definite.
-function [A,G,S_mu,S_eps] = jointBayesianEM(train_x, train_lbl, epoch, thres, feature_dim, dat_num, sub_num)
-    x_cell = cell(sub_num,1);
-    buff_size = 1;% maximum number of samples (pictures) per person
-    for i=1:sub_num
-        x_cell{i} = train_x(:,train_lbl==i);
-        buff_size = max([buff_size size(x_cell{i},2)]);
-    end
-    num_buff = zeros(buff_size,1); % num_buff(m)==1 means there's at least one subject with m samples
-    for i=1:sub_num
-        num_buff(size(x_cell{i},2))=1;
-    end
+function [A,G,S_mu,S_eps] = jointBayesianEM(x_cell, data_mean, epoch, thres, feature_dim, dat_num, sub_num)
     
-    % init with matrices used in LDA
-    data_mean = mean(train_x,2); % should be zero if already subtracted
-    S_mu = zeros(feature_dim); % identity matrix are positive definite
+    buff_size = max(cellfun(@(x) size(x,2),x_cell));% maximum number of samples (pictures) per person
+    num_buff = zeros(buff_size,1); % num_buff(m)==1 means there's at least one subject with m samples
+    num_buff(cellfun(@(x) size(x,2),x_cell)) = 1;
+    
+    % init with matrices used in LDA    
+    S_mu = zeros(feature_dim);
     S_eps = zeros(feature_dim);
     single_num = 0; % number of subjects with only one sample
     for i=1:sub_num
         n_k = size(x_cell{i},2);
-        m_k = mean(x_cell{i},2);        
+        m_k = mean(x_cell{i},2);
         
         % within class covariance matrix
         if n_k>1
